@@ -1,0 +1,32 @@
+# macOS
+.DS_Store
+
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+
+# Virtual environments
+venv/
+venv_doc/
+.venv/
+
+# Frontend
+web/node_modules/
+web/dist/
+
+# Local runtime / tooling
+.runtime/
+.superpowers/
+
+# Generated thesis assets
+.thesis_assets/
+
+# Evaluation outputs
+evaluation/results/*.html
+evaluation/results/*.json
+evaluation/results/*.svg
+
+# Logs / pid files
+*.log
+*.pid

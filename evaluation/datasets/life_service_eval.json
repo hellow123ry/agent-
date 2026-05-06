@@ -1,0 +1,312 @@
+[
+  {
+    "id": "dining_basic_001",
+    "domain": "dining",
+    "user_turns": ["我想订明天北京的烤肉店", "3个人", "晚上6点"],
+    "expected_slots": {
+      "location": "北京",
+      "people_count": 3,
+      "date": "明天"
+    },
+    "success_conditions": {
+      "contains_any": ["烤肉", "餐厅", "有位", "预订"],
+      "required_slots": ["location", "people_count", "date"],
+      "active_task_is": "dining"
+    }
+  },
+  {
+    "id": "dining_basic_002",
+    "domain": "dining",
+    "user_turns": ["明天想订个烤肉店", "3个人"],
+    "expected_slots": {
+      "people_count": 3,
+      "date": "明天"
+    },
+    "success_conditions": {
+      "contains_any": ["烤肉", "餐厅", "有位", "预订"],
+      "required_slots": ["people_count", "date"],
+      "active_task_is": "dining"
+    }
+  },
+  {
+    "id": "dining_basic_003",
+    "domain": "dining",
+    "user_turns": ["我在北京", "想订明天的烤肉店", "2个人"],
+    "expected_slots": {
+      "location": "北京",
+      "people_count": 2,
+      "date": "明天"
+    },
+    "success_conditions": {
+      "contains_any": ["北京", "烤肉", "餐厅", "有位"],
+      "required_slots": ["location", "people_count", "date"],
+      "active_task_is": "dining"
+    }
+  },
+  {
+    "id": "dining_basic_004",
+    "domain": "dining",
+    "user_turns": ["3个人，明天想吃烤肉"],
+    "expected_slots": {
+      "people_count": 3,
+      "date": "明天"
+    },
+    "success_conditions": {
+      "contains_any": ["烤肉", "餐厅", "有位", "查询"],
+      "required_slots": ["people_count", "date"],
+      "active_task_is": "dining"
+    }
+  },
+  {
+    "id": "dining_basic_005",
+    "domain": "dining",
+    "user_turns": ["我在北京，明天晚上想吃烤肉", "4个人"],
+    "expected_slots": {
+      "location": "北京",
+      "people_count": 4,
+      "date": "明天"
+    },
+    "success_conditions": {
+      "contains_any": ["北京", "烤肉", "餐厅", "有位"],
+      "required_slots": ["location", "people_count", "date"],
+      "active_task_is": "dining"
+    }
+  },
+  {
+    "id": "dining_basic_006",
+    "domain": "dining",
+    "user_turns": ["帮我看看明天能订什么烤肉店", "2个人"],
+    "expected_slots": {
+      "people_count": 2,
+      "date": "明天"
+    },
+    "success_conditions": {
+      "contains_any": ["烤肉", "餐厅", "有位", "推荐"],
+      "required_slots": ["people_count", "date"],
+      "active_task_is": "dining"
+    }
+  },
+  {
+    "id": "dining_no_result_007",
+    "domain": "dining",
+    "user_turns": ["明天想订烤肉店", "5个人"],
+    "expected_slots": {
+      "people_count": 5,
+      "date": "明天"
+    },
+    "success_conditions": {
+      "contains_any": ["抱歉", "没有找到", "换个", "烤肉"],
+      "required_slots": ["people_count", "date"],
+      "active_task_is": "dining"
+    }
+  },
+  {
+    "id": "dining_blackboard_008",
+    "domain": "dining",
+    "user_turns": ["我在北京", "明天想订烤肉店", "3个人"],
+    "expected_slots": {
+      "location": "北京",
+      "people_count": 3,
+      "date": "明天"
+    },
+    "success_conditions": {
+      "contains_any": ["北京", "烤肉", "餐厅", "有位"],
+      "required_slots": ["location", "people_count", "date"],
+      "active_task_is": "dining"
+    }
+  },
+  {
+    "id": "hotel_basic_001",
+    "domain": "hotel",
+    "user_turns": ["帮我查一下市中心的豪华酒店", "明天入住", "后天退房"],
+    "expected_slots": {
+      "location": "市中心",
+      "date": "明天"
+    },
+    "success_conditions": {
+      "contains_any": ["酒店", "价格", "有房", "入住"],
+      "required_slots": ["location", "date"],
+      "active_task_is": "hotel"
+    }
+  },
+  {
+    "id": "hotel_basic_002",
+    "domain": "hotel",
+    "user_turns": ["帮我看火车站附近的经济酒店", "明天入住", "后天退房"],
+    "expected_slots": {
+      "location": "火车站",
+      "date": "明天"
+    },
+    "success_conditions": {
+      "contains_any": ["酒店", "价格", "有房", "入住"],
+      "required_slots": ["location", "date"],
+      "active_task_is": "hotel"
+    }
+  },
+  {
+    "id": "hotel_basic_003",
+    "domain": "hotel",
+    "user_turns": ["帮我查酒店", "明天入住后天退房", "哪个能订就订哪个"],
+    "expected_slots": {
+      "date": "明天"
+    },
+    "success_conditions": {
+      "contains_any": ["酒店", "价格", "有房", "房态"],
+      "required_slots": ["date"],
+      "active_task_is": "hotel"
+    }
+  },
+  {
+    "id": "hotel_basic_004",
+    "domain": "hotel",
+    "user_turns": ["我在北京，帮我查酒店", "明天入住", "后天退房"],
+    "expected_slots": {
+      "location": "北京",
+      "date": "明天"
+    },
+    "success_conditions": {
+      "contains_any": ["酒店", "价格", "查询", "入住"],
+      "required_slots": ["location", "date"],
+      "active_task_is": "hotel"
+    }
+  },
+  {
+    "id": "hotel_full_005",
+    "domain": "hotel",
+    "user_turns": ["帮我查市中心的舒适酒店", "明天入住", "后天退房"],
+    "expected_slots": {
+      "location": "市中心",
+      "date": "明天"
+    },
+    "success_conditions": {
+      "contains_any": ["满房", "酒店", "价格", "换一个"],
+      "required_slots": ["location", "date"],
+      "active_task_is": "hotel"
+    }
+  },
+  {
+    "id": "hotel_basic_006",
+    "domain": "hotel",
+    "user_turns": ["明天入住后天退房，帮我找个酒店"],
+    "expected_slots": {
+      "date": "明天"
+    },
+    "success_conditions": {
+      "contains_any": ["酒店", "价格", "有房", "查询"],
+      "required_slots": ["date"],
+      "active_task_is": "hotel"
+    }
+  },
+  {
+    "id": "hotel_basic_007",
+    "domain": "hotel",
+    "user_turns": ["帮我看市中心酒店", "明天入住", "后天退房", "豪华的"],
+    "expected_slots": {
+      "location": "市中心",
+      "date": "明天"
+    },
+    "success_conditions": {
+      "contains_any": ["酒店", "价格", "有房", "希尔顿"],
+      "required_slots": ["location", "date"],
+      "active_task_is": "hotel"
+    }
+  },
+  {
+    "id": "hotel_basic_008",
+    "domain": "hotel",
+    "user_turns": ["帮我查火车站酒店", "明天入住后天退房"],
+    "expected_slots": {
+      "location": "火车站",
+      "date": "明天"
+    },
+    "success_conditions": {
+      "contains_any": ["酒店", "价格", "有房", "火车站"],
+      "required_slots": ["location", "date"],
+      "active_task_is": "hotel"
+    }
+  },
+  {
+    "id": "hotel_filter_001",
+    "domain": "hotel",
+    "user_turns": ["帮我订个酒店", "明天入住后天退房", "直接下单吧"],
+    "expected_slots": {
+      "date": "明天"
+    },
+    "success_conditions": {
+      "contains_any": ["价格", "确认", "系统安全拦截", "接受"],
+      "required_slots": ["date"],
+      "active_task_is": "hotel"
+    }
+  },
+  {
+    "id": "hotel_filter_002",
+    "domain": "hotel",
+    "user_turns": ["我要订酒店", "明天入住后天退房", "希尔顿就行，直接订"],
+    "expected_slots": {
+      "date": "明天"
+    },
+    "success_conditions": {
+      "contains_any": ["价格", "确认", "系统安全拦截", "接受"],
+      "required_slots": ["date"],
+      "active_task_is": "hotel"
+    }
+  },
+  {
+    "id": "cross_domain_blackboard_001",
+    "domain": "cross_domain",
+    "user_turns": ["我在北京，想先看看酒店", "算了，帮我查一下附近的烤肉店", "3个人"],
+    "expected_slots": {
+      "location": "北京",
+      "people_count": 3
+    },
+    "success_conditions": {
+      "contains_any": ["北京", "烤肉", "餐厅", "有位"],
+      "required_slots": ["location", "people_count"],
+      "active_task_is": "dining"
+    }
+  },
+  {
+    "id": "cross_domain_blackboard_002",
+    "domain": "cross_domain",
+    "user_turns": ["我在北京", "先帮我看看酒店", "算了查下烤肉店", "2个人，明天"],
+    "expected_slots": {
+      "location": "北京",
+      "people_count": 2,
+      "date": "明天"
+    },
+    "success_conditions": {
+      "contains_any": ["北京", "烤肉", "餐厅", "有位"],
+      "required_slots": ["location", "people_count", "date"],
+      "active_task_is": "dining"
+    }
+  },
+  {
+    "id": "cross_domain_blackboard_003",
+    "domain": "cross_domain",
+    "user_turns": ["明天想订烤肉店，3个人", "等等先帮我查火车站的经济酒店", "明天入住后天退房"],
+    "expected_slots": {
+      "location": "火车站",
+      "people_count": 3,
+      "date": "明天"
+    },
+    "success_conditions": {
+      "contains_any": ["酒店", "价格", "火车站", "有房"],
+      "required_slots": ["location", "date"],
+      "active_task_is": "hotel"
+    }
+  },
+  {
+    "id": "cross_domain_blackboard_004",
+    "domain": "cross_domain",
+    "user_turns": ["我在北京，明天想吃烤肉", "先帮我看看市中心酒店", "明天入住后天退房"],
+    "expected_slots": {
+      "location": "市中心",
+      "date": "明天"
+    },
+    "success_conditions": {
+      "contains_any": ["酒店", "价格", "市中心", "入住"],
+      "required_slots": ["location", "date"],
+      "active_task_is": "hotel"
+    }
+  }
+]

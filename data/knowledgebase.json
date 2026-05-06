@@ -1,0 +1,59 @@
+{
+  "restaurants": [
+    {
+      "name": "全聚德烤鸭",
+      "type": "烤肉店/烤鸭",
+      "capacity": [
+        2,
+        3,
+        4,
+        6,
+        8
+      ],
+      "status": "有位"
+    },
+    {
+      "name": "海底捞火锅",
+      "type": "火锅",
+      "capacity": [
+        2,
+        4,
+        6
+      ],
+      "status": "爆满"
+    },
+    {
+      "name": "汉拿山韩式烤肉",
+      "type": "烤肉店",
+      "capacity": [
+        2,
+        3,
+        4
+      ],
+      "status": "有位"
+    }
+  ],
+  "hotels": [
+    {
+      "name": "希尔顿酒店",
+      "location": "市中心",
+      "type": "豪华",
+      "price": 1200,
+      "status": "有房"
+    },
+    {
+      "name": "如家快捷酒店",
+      "location": "火车站",
+      "type": "经济",
+      "price": 300,
+      "status": "有房"
+    },
+    {
+      "name": "桔子水晶酒店",
+      "location": "市中心",
+      "type": "舒适",
+      "price": 600,
+      "status": "满房"
+    }
+  ]
+}
