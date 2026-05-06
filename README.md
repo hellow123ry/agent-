@@ -1,23 +1,43 @@
 # Multi-Agent Dialog System
 
-一个面向生活服务场景的多智能体对话系统原型，围绕“任务栈 + 全局黑板 + 领域专家协作”实现多轮对话管理、工具调用、可视化调试和离线评测。
+一个面向生活服务场景的多智能体对话系统原型，围绕“任务栈 + 全局黑板 + 领域专家协作”实现多轮任务型对话、工具调用、过程可视化与离线评测。
 
 项目当前已经包含：
 
-- 多智能体对话系统核心实现
+- 多智能体对话核心实现
 - 基于 FastAPI 的本地服务层
 - 基于 React + TypeScript 的可视化工作台
-- 评测数据集、评测脚本与自动报告生成
-- 生活服务知识库的可视化编辑能力
+- 批量评测、指标计算与报告生成
+- 可视化知识库编辑器
+
+## 运行界面预览
+
+以下截图来自项目真实运行过程，覆盖对话、调试、评测与知识库维护场景。
+
+### 工作台总览
+
+![Workbench Overview](docs/assets/workbench-overview.png)
+
+### 对话与过程调试
+
+![Chat And Debug](docs/assets/chat-debug-view.png)
+
+### 评测看板与指标
+
+![Evaluation Dashboard](docs/assets/eval-dashboard.png)
+
+### 知识库编辑
+
+![Knowledgebase Editor](docs/assets/knowledgebase-editor.png)
 
 ## 项目亮点
 
 - 支持餐饮、酒店等生活服务场景的多轮任务型对话
-- 使用 `task_stack` 处理用户打断、切题和任务恢复
+- 使用 `task_stack` 处理打断、切题与任务恢复
 - 使用 `global_blackboard` 共享跨专家上下文与槽位信息
 - 支持工具调用熔断与评测单样本超时保护，避免长时间卡死
-- 提供 Web 工作台，可同时查看聊天、Trace、状态、评测进度和报告
-- 提供知识库编辑窗口，可直接修改餐厅和酒店数据并用于新会话/新评测
+- 提供三栏 Web 工作台，同时查看聊天、Trace、状态、评测进度和报告
+- 提供知识库编辑窗口，可直接修改餐厅和酒店数据并用于新会话与新评测
 
 ## 系统架构
 
@@ -50,8 +70,8 @@ multi_agent_dialog_system/
 ├── data/                   # 运行时知识库数据
 ├── tests/                  # 测试
 ├── web/                    # React + TS 工作台
-├── docs/                   # 设计与实施文档
-├── scripts/                # 辅助脚本（如论文导出）
+├── docs/                   # 使用文档、设计与实施文档
+├── scripts/                # 辅助脚本
 ├── main.py                 # 命令行对话入口
 └── requirements.txt        # Python 依赖
 ```
@@ -62,12 +82,8 @@ multi_agent_dialog_system/
 
 - 路由器负责意图识别与专家分发
 - 领域专家负责餐饮、酒店等具体任务执行
-- 对话状态中维护：
-  - `messages`
-  - `task_stack`
-  - `active_task`
-  - `global_blackboard`
-  - `knowledgebase`
+- 对话状态中维护 `messages`、`task_stack`、`active_task`、`global_blackboard`、`knowledgebase`
+- 支持真实 API 会话创建、重置与多轮消息发送
 
 ### 2. 可视化工作台
 
@@ -100,13 +116,7 @@ multi_agent_dialog_system/
 - `slot_recall`
 - `slot_f1`
 
-评测数据位于：
-
-- `evaluation/datasets/life_service_eval.json`
-
-评测入口位于：
-
-- `evaluation/run_eval.py`
+评测数据位于 `evaluation/datasets/life_service_eval.json`，入口位于 `evaluation/run_eval.py`。
 
 ### 4. 知识库编辑
 
@@ -114,28 +124,12 @@ multi_agent_dialog_system/
 
 - 餐厅列表
 - 酒店列表
+- 餐厅容量文本转数组校验
+- 保存后用于新会话、重置会话与新评测任务
 
-知识库存放在：
-
-- `data/knowledgebase.json`
-
-保存后：
-
-- 新建会话会读取最新知识库
-- 重置会话会读取最新知识库
-- 新启动的评测任务会读取最新知识库
+知识库存放在 `data/knowledgebase.json`。
 
 已存在会话默认继续使用创建时的快照，这是有意设计的快照语义。
-
-## 环境要求
-
-建议环境：
-
-- Python `3.11+`
-- Node.js `18+`
-- npm `9+`
-
-如果你使用的是 macOS，本项目已经在本地工作流中验证过。
 
 ## 快速开始
 
@@ -172,18 +166,17 @@ npm run dev -- --host 127.0.0.1 --port 5173
 
 - 前端：`http://127.0.0.1:5173/`
 - 后端：`http://127.0.0.1:8000/`
+- 如果 `5173` 已被占用，Vite 可能自动切换到 `5174`
 
-## 命令行运行
+## 常用运行方式
 
-如果你只想在终端中快速体验对话系统，可以直接运行：
+### 命令行对话
 
 ```bash
 python3 main.py
 ```
 
-## 评测方式
-
-运行整套评测：
+### 批量评测
 
 ```bash
 python3 evaluation/run_eval.py
@@ -196,6 +189,15 @@ python3 evaluation/run_eval.py
 - `latest-task_success_rate.svg`
 - `latest-average_turns.svg`
 - `latest-slot_f1.svg`
+
+### 自动生成 README 截图
+
+```bash
+cd web
+node scripts/capture_readme_screenshots.mjs
+```
+
+生成的图片会写入 `docs/assets/`。
 
 ## 测试
 
@@ -215,14 +217,38 @@ pytest tests/test_knowledgebase_service.py tests/test_api_knowledgebase.py -v
 
 当前后端主要提供以下接口：
 
-- `/api/chat/*`
-  - 会话创建、会话读取、重置会话、发送用户消息
-- `/api/eval/*`
-  - 发起评测、查询评测任务进度与结果
-- `/api/reports/*`
-  - 获取最新报告、通过 HTTP 访问本地报告文件
-- `/api/knowledgebase/*`
-  - 读取和更新餐厅/酒店知识库
+- `/api/chat/session`
+  - 创建会话
+- `/api/chat/session/{session_id}`
+  - 获取会话或重置会话
+- `/api/chat/session/{session_id}/turn`
+  - 发送用户消息并返回消息、状态与 traces
+- `/api/eval/run`
+  - 启动评测任务
+- `/api/eval/jobs/{job_id}`
+  - 查询评测进度、当前系统与部分指标
+- `/api/eval/jobs/{job_id}/result`
+  - 获取完整评测结果
+- `/api/reports/latest`
+  - 获取最新报告元数据
+- `/api/reports/history`
+  - 获取历史报告列表
+- `/api/reports/file`
+  - 访问本地报告文件
+- `/api/knowledgebase`
+  - 读取知识库
+- `/api/knowledgebase/restaurants`
+  - 更新餐厅数据
+- `/api/knowledgebase/hotels`
+  - 更新酒店数据
+
+## 文档
+
+- [使用文档](docs/USER_GUIDE.md)
+- [知识库设计](docs/superpowers/specs/2026-04-30-knowledgebase-editor-design.md)
+- [工作台计划](docs/superpowers/plans/2026-04-30-visual-workbench.md)
+- [知识库实施计划](docs/superpowers/plans/2026-04-30-knowledgebase-editor.md)
+- [评测系统计划](docs/superpowers/plans/2026-04-30-evaluation-system.md)
 
 ## 当前实现状态
 
@@ -249,12 +275,3 @@ pytest tests/test_knowledgebase_service.py tests/test_api_knowledgebase.py -v
 - 本项目中的生活服务数据是本地原型数据，不是生产真实数据
 - 评测结果受模型、提示词和工具实现影响较大
 - 已有会话不会在知识库保存后自动热更新，这是设计上的快照语义
-
-## 相关文档
-
-- `docs/superpowers/specs/2026-04-30-knowledgebase-editor-design.md`
-- `docs/superpowers/plans/2026-04-30-visual-workbench.md`
-- `docs/superpowers/plans/2026-04-30-knowledgebase-editor.md`
-- `docs/superpowers/plans/2026-04-30-evaluation-system.md`
-
-
