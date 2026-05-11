@@ -11,6 +11,11 @@ venv/
 venv_doc/
 .venv/
 
+# Local environment files
+.env
+.env.*
+!.env.example
+
 # Frontend
 web/node_modules/
 web/dist/

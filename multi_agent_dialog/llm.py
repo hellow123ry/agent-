@@ -1,10 +1,13 @@
 import os
 from langchain_openai import ChatOpenAI
 
+
 def get_llm():
     """获取配置好的 ModelHub 大模型实例"""
-    # 优先从环境变量获取，如果没有则使用硬编码的真实 Key
-    ak = os.getenv("OPENAI_API_KEY", "HlRoRaHvn9Zbg6HZmbwVjjhgAxeS9Wp7_GPT_AK")
+    ak = os.getenv("OPENAI_API_KEY")
+    if not ak:
+        raise ValueError("OPENAI_API_KEY is required to initialize the LLM client.")
+
     # 修改 base_url 为字节内部 ModelHub 的标准 OpenAI 兼容网关地址
     base_url = os.getenv("API_BASE_URL", "http://aidp.bytedance.net/api/modelhub/online/v2/crawl/openai/deployments/gpt_openapi")
     
