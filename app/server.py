@@ -3,11 +3,14 @@ from __future__ import annotations
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
+from app.env import load_project_env
 from app.api.chat import router as chat_router
 from app.api.eval import router as eval_router
 from app.api.knowledgebase import router as knowledgebase_router
 from app.api.reports import router as reports_router
 
+
+load_project_env()
 
 app = FastAPI(title="Multi Agent Dialog Workbench")
 app.add_middleware(

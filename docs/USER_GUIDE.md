@@ -247,7 +247,7 @@ State 面板展示当前对话状态，重点包括：
 
 ### 7.1 环境要求
 
-- Python `3.11+`
+- Python `3.9+`
 - Node.js `18+`
 - npm `9+`
 
@@ -263,32 +263,78 @@ npm install
 cd ..
 ```
 
-### 7.3 启动后端
+### 7.3 配置 `.env`
+
+先在项目根目录创建本地环境文件：
+
+```bash
+cp .env.example .env
+```
+
+至少需要填写：
+
+```dotenv
+OPENAI_API_KEY=你的真实key
+API_BASE_URL=http://aidp.bytedance.net/api/modelhub/online/v2/crawl/openai/deployments/gpt_openapi
+```
+
+当前项目已经支持在以下两种入口中自动加载根目录 `.env`：
+
+- `python3 -m uvicorn app.server:app --host 127.0.0.1 --port 8000`
+- `python3 main.py`
+
+也就是说，只要 `.env` 填好了，后续不需要再手动执行 `export OPENAI_API_KEY=...`。
+
+### 7.4 启动后端
 
 ```bash
 python3 -m uvicorn app.server:app --host 127.0.0.1 --port 8000
 ```
 
-### 7.4 启动前端
+启动成功后可以访问：
+
+- `http://127.0.0.1:8000/docs`
+- `http://127.0.0.1:8000/api/knowledgebase`
+
+### 7.5 启动前端
 
 ```bash
 cd web
 npm run dev -- --host 127.0.0.1 --port 5173
 ```
 
-如果 `5173` 被占用，Vite 可能自动切换到 `5174`。
+推荐使用 `5173`。如果 `5173` 被占用，Vite 可能自动切换到 `5174`，这两个端口当前都已加入后端 CORS 白名单。
 
-### 7.5 命令行模式
+### 7.6 打开工作台
+
+- 前端：`http://127.0.0.1:5173/`
+- 后端：`http://127.0.0.1:8000/`
+
+工作台默认是三栏布局：
+
+- 左栏：聊天 + 知识库编辑
+- 中栏：Trace + State
+- 右栏：评测 + 报告
+
+### 7.7 命令行模式
 
 ```bash
 python3 main.py
 ```
 
-### 7.6 运行评测
+适合：
+
+- 快速验证当前 key 是否可用
+- 快速测试某一轮问答
+- 不开前端时直接体验多智能体对话
+
+### 7.8 运行评测
 
 ```bash
 python3 evaluation/run_eval.py
 ```
+
+如果评测跑通，结果会写入 `evaluation/results/`，并可在工作台报告面板中查看。
 
 ## 8. 后端 API 清单
 
@@ -352,6 +398,14 @@ python3 evaluation/run_eval.py
 - 前端请求的 API 地址是否正确
 - 当前 Vite 端口是否发生切换
 - 后端 CORS 是否允许当前前端端口
+- `.env` 中是否已经填入真实 `OPENAI_API_KEY`
+
+推荐排查顺序：
+
+1. 打开 `http://127.0.0.1:8000/docs`，确认后端是否在线
+2. 确认前端运行在 `5173` 或 `5174`
+3. 确认根目录 `.env` 存在且已填 key
+4. 重启后端后再试一次
 
 ### 10.2 修改知识库后当前会话没有变化
 
@@ -368,6 +422,33 @@ python3 evaluation/run_eval.py
 ### 10.4 评测为什么耗时较长
 
 批量评测会逐条样本运行两个系统，并生成完整结果与报告，因此耗时明显高于单轮聊天。
+
+### 10.5 为什么我明明写了 `.env`，但还是读取不到
+
+优先检查：
+
+- `.env` 是否位于项目根目录，而不是 `web/` 目录
+- 后端是否是在项目根目录下启动的
+- `.env` 是否包含 `OPENAI_API_KEY=...`
+- 修改 `.env` 后是否重启了后端进程
+
+当前自动加载逻辑覆盖：
+
+- `python3 -m uvicorn app.server:app --host 127.0.0.1 --port 8000`
+- `python3 main.py`
+
+如果是其他自定义启动方式，需要确认是否也走到了相同入口。
+
+### 10.6 为什么前端能打开，但接口报跨域或请求失败
+
+当前后端 CORS 只放行以下开发地址：
+
+- `http://127.0.0.1:5173`
+- `http://localhost:5173`
+- `http://127.0.0.1:5174`
+- `http://localhost:5174`
+
+因此前端开发时最好固定使用 `5173`，或者确认实际端口在白名单中。
 
 ## 11. 建议使用场景
 

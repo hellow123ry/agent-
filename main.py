@@ -1,7 +1,10 @@
+from app.env import load_project_env
+from app.services.knowledgebase_service import load_knowledgebase
+from langchain_core.messages import HumanMessage
 from multi_agent_dialog.graph import run_dialog
 from multi_agent_dialog.state import DialogState
-from langchain_core.messages import HumanMessage
-from app.services.knowledgebase_service import load_knowledgebase
+
+load_project_env()
 
 def main():
     print("=======================================")

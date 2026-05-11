@@ -149,20 +149,33 @@ npm install
 cd ..
 ```
 
-### 3. 启动后端
+### 3. 配置本地 `.env`
+
+```bash
+cp .env.example .env
+```
+
+然后在 `.env` 中填入你自己的 `OPENAI_API_KEY`。项目现在会在以下两种启动方式中自动加载根目录 `.env`，不需要再手动 `export`：
+
+- `python3 -m uvicorn app.server:app ...`
+- `python3 main.py`
+
+### 4. 启动后端
 
 ```bash
 python3 -m uvicorn app.server:app --host 127.0.0.1 --port 8000
 ```
 
-### 4. 启动前端
+### 5. 启动前端
+
+推荐固定使用 `5173`，因为当前后端默认放行的开发端口是 `5173` 和 `5174`。
 
 ```bash
 cd web
 npm run dev -- --host 127.0.0.1 --port 5173
 ```
 
-### 5. 打开工作台
+### 6. 打开工作台
 
 - 前端：`http://127.0.0.1:5173/`
 - 后端：`http://127.0.0.1:8000/`
@@ -175,6 +188,8 @@ npm run dev -- --host 127.0.0.1 --port 5173
 ```bash
 python3 main.py
 ```
+
+适合快速验证一轮真实对话，不依赖前端页面。
 
 ### 批量评测
 
@@ -189,6 +204,12 @@ python3 evaluation/run_eval.py
 - `latest-task_success_rate.svg`
 - `latest-average_turns.svg`
 - `latest-slot_f1.svg`
+
+### 查看后端接口文档
+
+启动后端后，可直接访问：
+
+- `http://127.0.0.1:8000/docs`
 
 ### 自动生成 README 截图
 
@@ -247,6 +268,7 @@ pytest tests/test_knowledgebase_service.py tests/test_api_knowledgebase.py -v
 - [使用文档](docs/USER_GUIDE.md)
 - [知识库设计](docs/superpowers/specs/2026-04-30-knowledgebase-editor-design.md)
 - [工作台计划](docs/superpowers/plans/2026-04-30-visual-workbench.md)
+- [Dotenv 自动加载计划](docs/superpowers/plans/2026-05-09-dotenv-auto-load.md)
 - [知识库实施计划](docs/superpowers/plans/2026-04-30-knowledgebase-editor.md)
 - [评测系统计划](docs/superpowers/plans/2026-04-30-evaluation-system.md)
 
